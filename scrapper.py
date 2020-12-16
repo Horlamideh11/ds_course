@@ -16,7 +16,7 @@ def get_jobs(keyword, num_jobs, verbose):
     driver = webdriver.Chrome(executable_path="C:/Users/HP/Desktop/ds_course/chromedriver", options=options)
     driver.set_window_size(1120, 1000)
     url = "https://www.glassdoor.com/Job/jobs.htm?suggestCount=0&suggestChosen=false&clickSource=searchBtn&typedKeyword=" + keyword + "&sc.keyword=" + keyword + "&locT=&locId=&jobType="
-    #url = 'https://www.glassdoor.com/Job/jobs.htm?sc.keyword="' + keyword + '"&locT=C&locId=1147401&locKeyword=San%20Francisco,%20CA&jobType=all&fromAge=-1&minSalary=0&includeNoSalaryJobs=true&radius=100&cityId=-1&minRating=0.0&industryId=-1&sgocId=-1&seniorityType=all&companyId=-1&employerSizes=0&applicationType=0&remoteWorkType=0'
+    #url = 'https://www.glassdoor.com/Job/jobs.htm?sc.keyword="' + keyword + '"&locT=C&locId=1147401&locKeyword=San%20Francisco,%20CA&jobType=all&fromAge="not found"&minSalary=0&includeNoSalaryJobs=true&radius=100&cityId="not found"&minRating=0.0&industryId="not found"&sgocId="not found"&seniorityType=all&companyId="not found"&employerSizes=0&applicationType=0&remoteWorkType=0'
     driver.get(url)
     jobs = []
 
@@ -24,7 +24,7 @@ def get_jobs(keyword, num_jobs, verbose):
 
         #Let the page load. Change this number based on your internet speed.
         #Or, wait until the webpage is loaded, instead of hardcoding it.
-        time.sleep(4)
+        time.sleep(15)
 
         #Test for the "Sign Up" prompt and get rid of it.
         try:
@@ -49,7 +49,7 @@ def get_jobs(keyword, num_jobs, verbose):
                 break
 
             job_button.click()  #You might 
-            time.sleep(1)
+            time.sleep(15)
             collected_successfully = False
             
             while not collected_successfully:
@@ -65,12 +65,12 @@ def get_jobs(keyword, num_jobs, verbose):
             try:
                 salary_estimate = driver.find_element_by_xpath('.//span[@class="css-18034rf e1wijj242"]').text
             except NoSuchElementException:
-                salary_estimate = -1 #You need to set a "not found value. It's important."
+                salary_estimate = "not found" #You need to set a "not found value. It's important."
             
             try:
                 rating = driver.find_element_by_xpath('.//span[@class="rating"]').text
             except NoSuchElementException:
-                rating = -1 #You need to set a "not found value. It's important."
+                rating = "not found" #You need to set a "not found value. It's important."
 
             #Printing for debugging
             if verbose:
@@ -94,52 +94,52 @@ def get_jobs(keyword, num_jobs, verbose):
                     #</div>
                     headquarters = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Headquarters"]//following-sibling::*').text
                 except NoSuchElementException:
-                    headquarters = -1
+                    headquarters = "not found"
 
                 try:
                     size = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Size"]//following-sibling::*').text
                 except NoSuchElementException:
-                    size = -1
+                    size = "not found"
 
                 try:
                     founded = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Founded"]//following-sibling::*').text
                 except NoSuchElementException:
-                    founded = -1
+                    founded = "not found"
 
                 try:
                     type_of_ownership = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Type"]//following-sibling::*').text
                 except NoSuchElementException:
-                    type_of_ownership = -1
+                    type_of_ownership = "not found"
 
                 try:
                     industry = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Industry"]//following-sibling::*').text
                 except NoSuchElementException:
-                    industry = -1
+                    industry = "not found"
 
                 try:
                     sector = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Sector"]//following-sibling::*').text
                 except NoSuchElementException:
-                    sector = -1
+                    sector = "not found"
 
                 try:
                     revenue = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Revenue"]//following-sibling::*').text
                 except NoSuchElementException:
-                    revenue = -1
+                    revenue = "not found"
 
                 try:
                     competitors = driver.find_element_by_xpath('.//div[@class="infoEntity"]//label[text()="Competitors"]//following-sibling::*').text
                 except NoSuchElementException:
-                    competitors = -1
+                    competitors = "not found"
 
             except NoSuchElementException:  #Rarely, some job postings do not have the "Company" tab.
-                headquarters = -1
-                size = -1
-                founded = -1
-                type_of_ownership = -1
-                industry = -1
-                sector = -1
-                revenue = -1
-                competitors = -1
+                headquarters = "not found"
+                size = "not found"
+                founded = "not found"
+                type_of_ownership = "not found"
+                industry = "not found"
+                sector = "not found"
+                revenue = "not found"
+                competitors = "not found"
 
                 
             if verbose:
